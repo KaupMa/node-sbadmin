@@ -22,6 +22,8 @@ Install and start mongoDB. (http://www.mongodb.org)
 	$ git clone https://github.com/EunsanKo/node-sbadmin.git
 	$ cd node-sbadmin
 	$ npm install
+	$ npm install mariadb
+
 
 #### 3. Start SB Admin 2 Node.js
 
