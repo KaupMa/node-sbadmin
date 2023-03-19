@@ -4,14 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var engine = require('ejs-locals')
+var engine = require('ejs-locals');
 var Database = require('./persister/database');
 var config = require('./config.json');
 var app = express();
 var passport = require('passport');
 var expressSession = require('express-session');
 var flash = require('connect-flash');
-
 
 // view engine setup
 app.engine('ejs', engine);
@@ -21,7 +20,6 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(expressSession({secret: 'mySecretKey'}));
-
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -54,37 +52,21 @@ if (app.get('env') === 'development') {
   });
 }
 
-Database.config(
-  config && config.mongodb && config.mongodb.address ? config.mongodb.address : '', 'sbadmin',
-  
-  config.mongodb && config.mongodb.options ? config.mongodb.options : undefined,
-  function(err, message) {
-    if (!err) console.info('  - Mongodb is connected');
-    
-  }
-);
-/*
-var mariadb = require('mariadb');
-var dbConfig = require('./config.json').database;
-
-var pool = mariadb.createPool({
-  host: dbConfig.host,
-  port: dbConfig.port,
-  user: dbConfig.user,
-  password: dbConfig.password,
-  database: dbConfig.database,
-  connectionLimit: 5
+// MariaDB connection
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('sbadmin', 'root', 'password', {
+  host: 'localhost',
+  dialect: 'mariadb'
 });
 
-pool.getConnection()
-  .then(conn => {
-    console.log("MariaDB is connected");
-    conn.release();
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('MariaDB connection has been established successfully.');
   })
   .catch(err => {
-    console.log("MariaDB error encountered [" + err + "]");
+    console.error('Unable to connect to the database:', err);
   });
-*/
 
 // production error handler
 // no stacktraces leaked to user
