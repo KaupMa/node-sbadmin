@@ -63,6 +63,28 @@ Database.config(
     
   }
 );
+/*
+var mariadb = require('mariadb');
+var dbConfig = require('./config.json').database;
+
+var pool = mariadb.createPool({
+  host: dbConfig.host,
+  port: dbConfig.port,
+  user: dbConfig.user,
+  password: dbConfig.password,
+  database: dbConfig.database,
+  connectionLimit: 5
+});
+
+pool.getConnection()
+  .then(conn => {
+    console.log("MariaDB is connected");
+    conn.release();
+  })
+  .catch(err => {
+    console.log("MariaDB error encountered [" + err + "]");
+  });
+*/
 
 // production error handler
 // no stacktraces leaked to user
