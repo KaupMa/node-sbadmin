@@ -1,20 +1,24 @@
-var mongoose = require('mongoose');
+const Sequelize = require('sequelize');
 
-/**
- * User 정보를 담기 위한 Mongo DB model
- * @name userModel
- */
-var bbsModel = function () {
+const sequelize = new Sequelize('sbadmin', 'username', 'password', {
+  host: 'localhost',
+  dialect: 'mariadb'
+});
 
-  var bbsSchema = mongoose.Schema({
-    content: String,
-    username: String,
-    vote: Number,
-    date: { type: Date, default: Date.now }
-  });
- 
+const Bbs = sequelize.define('Bbs', {
+  content: {
+    type: Sequelize.STRING
+  },
+  username: {
+    type: Sequelize.STRING
+  },
+  vote: {
+    type: Sequelize.INTEGER
+  },
+  date: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW
+  }
+});
 
-  return mongoose.model('Bbs', bbsSchema);
-};
-
-module.exports = new bbsModel();
+module.exports = Bbs;
